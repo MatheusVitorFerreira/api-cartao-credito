@@ -5,6 +5,8 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/eurekaserver/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudgateway/pom.xml" />
+        <option value="$PROJECT_DIR$/msusers/pom.xml" />
       </list>
     </option>
   </component>
