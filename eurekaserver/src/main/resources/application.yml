@@ -1,7 +1,5 @@
 server:
   port: 8761
-  instance:
-    hostname: localhost
 
 spring:
   application:

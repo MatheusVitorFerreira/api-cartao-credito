@@ -19,7 +19,7 @@ public class cloudgatewayApplication {
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder
                 .routes()
-                .route(r -> r.path("/api/employees/**").uri("lb://msusers"))
+                .route(r -> r.path("/api/v1/employees/**").uri("lb://msusers"))
                 .build();
     }
 }

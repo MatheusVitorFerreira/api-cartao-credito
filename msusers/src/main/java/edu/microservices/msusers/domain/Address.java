@@ -20,9 +20,5 @@ public class Address {
     private String state;
     private String country;
 
-    @DBRef
-    private Client client;
 
-    @DBRef
-    private Employee employee;
 }
