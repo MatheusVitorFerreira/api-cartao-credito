@@ -20,6 +20,7 @@ public class cloudgatewayApplication {
         return builder
                 .routes()
                 .route(r -> r.path("/api/v1/employees/**").uri("lb://msusers"))
+                .route(r -> r.path("/api/v1/client/**").uri("lb://msusers"))
                 .build();
     }
 }

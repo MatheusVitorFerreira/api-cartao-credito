@@ -1,6 +1,7 @@
 package edu.microservices.msusers.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.microservices.msusers.exception.erros.ClientNotFoundException;
 import edu.microservices.msusers.exception.erros.DuplicateEmployeeException;
 import edu.microservices.msusers.exception.erros.EmployeeNotFoundException;
 import jakarta.servlet.ServletException;
@@ -34,6 +35,14 @@ public class ResourceExceptionHandler {
 
 		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	}
+	@ExceptionHandler(ClientNotFoundException.class)
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public ResponseEntity<StandardError> ClinicaNotFoundException(ClientNotFoundException e,
+			HttpServletRequest request) {
+
+		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
 	}
 
 	public void handle(HttpServletRequest request, HttpServletResponse response,

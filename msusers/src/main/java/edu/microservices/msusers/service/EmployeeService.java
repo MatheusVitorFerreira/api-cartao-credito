@@ -8,6 +8,7 @@ import edu.microservices.msusers.exception.erros.EmployeeNotFoundException;
 import edu.microservices.msusers.repository.AddressRepository;
 import edu.microservices.msusers.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public class EmployeeService {
 
     @Autowired
     private AddressRepository addressRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<EmployeeDTO> findAll() {
         return employeeRepository.findAll().stream().map(employee -> {
@@ -55,6 +58,8 @@ public class EmployeeService {
             throw new DuplicateEmployeeException("Employee with name " + name + " already exists");
         }
 
+        String encryptedPassword = encryptPassword(employeeDTO.getPassword());
+
         List<Address> addresses = employeeDTO.getAddresses();
         if (addresses != null) {
             addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
@@ -62,24 +67,25 @@ public class EmployeeService {
 
         Employee employee = employeeDTO.toEmployee();
         employee.setAddresses(addresses);
+        employee.setPassword(encryptedPassword);
         Employee savedEmployee = employeeRepository.save(employee);
         return new EmployeeDTO(savedEmployee, addresses);
     }
 
-    public EmployeeDTO update(String id, EmployeeDTO employeeDetails) {
+    public EmployeeDTO update(String id, EmployeeDTO object) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
-            String name = employeeDetails.getFullName();
+            String name = object.getFullName();
             if (employeeRepository.existsByFullNameAndIdNot(name, id)) {
                 throw new DuplicateEmployeeException("Another employee with name " + name + " already exists");
             }
 
             Employee employee = optionalEmployee.get();
-            employee.setPosition(employeeDetails.getPosition());
-            employee.setSalary(employeeDetails.getSalary());
-            employee.setDepartment(employeeDetails.getDepartment());
+            employee.setPosition(object.getPosition());
+            employee.setSalary(object.getSalary());
+            employee.setDepartment(object.getDepartment());
 
-            List<Address> addresses = employeeDetails.getAddresses();
+            List<Address> addresses = object.getAddresses();
             if (addresses != null) {
                 addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
                 employee.setAddresses(addresses);
@@ -93,6 +99,22 @@ public class EmployeeService {
     }
 
     public void delete(String id) {
-        employeeRepository.deleteById(id);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        if (optionalEmployee.isPresent()) {
+            Employee employee = optionalEmployee.get();
+            List<Address> addresses = employee.getAddresses();
+            if (addresses != null && !addresses.isEmpty()) {
+                for (Address address : addresses) {
+                    addressRepository.delete(address);
+                }
+            }
+            employeeRepository.deleteById(id);
+        } else {
+            throw new EmployeeNotFoundException("Employee not found with id " + id);
+        }
+    }
+    private String encryptPassword(String password) {
+        return passwordEncoder.encode(password);
     }
 }
+

@@ -1,8 +1,6 @@
 package edu.microservices.msusers.controller;
 
 import edu.microservices.msusers.dto.EmployeeDTO;
-import edu.microservices.msusers.exception.erros.DuplicateEmployeeException;
-import edu.microservices.msusers.exception.erros.EmployeeNotFoundException;
 import edu.microservices.msusers.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -27,43 +26,27 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable String id) {
-        try {
-            EmployeeDTO employeeDTO = employeeService.findById(id);
-            return ResponseEntity.ok(employeeDTO);
-        } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        EmployeeDTO employeeDTO = employeeService.findById(id);
+        return ResponseEntity.ok(employeeDTO);
     }
 
     @PostMapping()
     public ResponseEntity<Void> createEmployee(@Valid @RequestBody EmployeeDTO employeeDTO) {
-        try {
-            EmployeeDTO savedEmployee = employeeService.save(employeeDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (DuplicateEmployeeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        employeeService.save(employeeDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable String id, @Valid @RequestBody EmployeeDTO employeeDetails) {
-        try {
-            EmployeeDTO updatedEmployee = employeeService.update(id, employeeDetails);
-            return ResponseEntity.ok(updatedEmployee);
-        } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (DuplicateEmployeeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+    public ResponseEntity<EmployeeDTO> updateEmployee(
+            @PathVariable String id,
+            @Valid @RequestBody EmployeeDTO object) {
+        EmployeeDTO updatedEmployee = employeeService.update(id, object);
+        return ResponseEntity.ok(updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable String id) {
-        try {
-            employeeService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (EmployeeNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+        employeeService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
