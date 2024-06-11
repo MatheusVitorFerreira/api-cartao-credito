@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/eurekaserver/pom.xml" />
         <option value="$PROJECT_DIR$/cloudgateway/pom.xml" />
         <option value="$PROJECT_DIR$/msusers/pom.xml" />
+        <option value="$PROJECT_DIR$/mscartao/pom.xml" />
       </list>
     </option>
   </component>

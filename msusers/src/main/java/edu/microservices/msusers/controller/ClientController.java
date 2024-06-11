@@ -1,9 +1,6 @@
 package edu.microservices.msusers.controller;
 
 import edu.microservices.msusers.dto.ClientDTO;
-import edu.microservices.msusers.exception.erros.ClientNotFoundException;
-import edu.microservices.msusers.exception.erros.DuplicateClientException;
-import edu.microservices.msusers.exception.erros.EmployeeNotFoundException;
 import edu.microservices.msusers.service.ClientService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
