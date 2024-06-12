@@ -23,17 +23,17 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
 2. **Serviço de Usuário**:
    - **Função**: Gerenciar a criação, atualização e consulta de dados dos usuários.
    - **Tecnologia**: Spring Boot.
-   - **Banco de Dados**: MongoDB.
+   - **Banco de Dados**: PostgreSQL.
 
 3. **Serviço de Cartão**:
    - **Função**: Gerenciar a geração e emissão dos cartões de crédito.
    - **Tecnologia**: Spring Boot.
-   - **Banco de Dados**: MongoDB.
+   - **Banco de Dados**: PostgreSQL.
 
 4. **Serviço de Transações**:
    - **Função**: Registrar e processar transações feitas com os cartões de crédito.
    - **Tecnologia**: Spring Boot.
-   - **Banco de Dados**: MongoDB.
+   - **Banco de Dados**: PostgreSQL.
 
 5. **Serviço de Notificações**:
    - **Função**: Enviar notificações aos usuários sobre eventos importantes, como a emissão de um novo cartão ou transações realizadas.
@@ -53,17 +53,17 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
 1. **Registro do Usuário**:
    - O cliente envia uma solicitação para registrar um novo usuário via Gateway API.
    - A Gateway API encaminha a solicitação para o Serviço de Usuário.
-   - O Serviço de Usuário processa a solicitação e armazena os dados do usuário no MongoDB.
+   - O Serviço de Usuário processa a solicitação e armazena os dados do usuário no PostgreSQL.
 
 2. **Emissão do Cartão**:
    - O cliente solicita a emissão de um novo cartão via Gateway API.
    - A Gateway API encaminha a solicitação para o Serviço de Cartão.
-   - O Serviço de Cartão gera um novo cartão e armazena os detalhes no MongoDB.
+   - O Serviço de Cartão gera um novo cartão e armazena os detalhes no PostgreSQL.
    - O Serviço de Cartão envia uma mensagem ao Serviço de Notificações via RabbitMQ para informar o usuário sobre a emissão do cartão.
 
 3. **Processamento de Transações**:
    - As transações realizadas com os cartões são enviadas para o Serviço de Transações.
-   - O Serviço de Transações processa as transações e atualiza os registros no MongoDB.
+   - O Serviço de Transações processa as transações e atualiza os registros no PostgreSQL.
    - Notificações de transações são enviadas ao Serviço de Notificações via RabbitMQ.
 
 4. **Notificações**:
@@ -73,7 +73,7 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
 
 - **Linguagens**: Java
 - **Frameworks**: Spring Boot
-- **Banco de Dados**: MongoDB, H2 (para testes)
+- **Banco de Dados**: PostgreSQL, H2 (para testes)
 - **Mensageria**: RabbitMQ
 - **Autenticação e Autorização**: Keycloak
 - **Containerização**: Docker
