@@ -21,6 +21,7 @@ public class cloudgatewayApplication {
                 .routes()
                 .route(r -> r.path("/api/v1/employees/**").uri("lb://msusers"))
                 .route(r -> r.path("/api/v1/client/**").uri("lb://msusers"))
+                .route(r -> r.path("/h2-console/**").uri("lb://msusers"))
                 .build();
     }
 }

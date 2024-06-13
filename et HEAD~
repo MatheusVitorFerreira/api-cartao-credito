@@ -1,0 +1,61 @@
+[33mcommit 4e44768bd8b9dd5815fb26d30507f7a14800f75b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Merge: 5d1c07a 025ac42
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Thu Jun 13 16:02:22 2024 -0300
+
+    Merge branch 'master' of github.com:MatheusVitorFerreira/api-cartao-credito
+
+[33mcommit 5d1c07a63ab4786c7f6c126754820827273cdfc1[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Thu Jun 13 16:01:18 2024 -0300
+
+    Implementação API de Cartao
+
+[33mcommit 025ac4258a10771581df1e023ae08887362c2ac7[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Matheus Vitor Ferreira <153767841+MatheusVitorFerreira@users.noreply.github.com>
+Date:   Wed Jun 12 16:12:29 2024 -0300
+
+    Update README.md
+
+[33mcommit 3cbed8eea2deb15b15262be605c855c31bc1303f[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Tue Jun 11 10:00:45 2024 -0300
+
+    Adicação da API de Cartão
+
+[33mcommit 32bb4f26ce1f199a3d853bcdc384d7c9a4ecfb31[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Sun Jun 2 15:00:50 2024 -0300
+
+    Crud completo de Client
+
+[33mcommit 2430a2ebd9d9c5d2b4a7a3b28d70daba3cb88815[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Sat Jun 1 15:21:49 2024 -0300
+
+    Ajustes na API de msusers no crud de Employee e insercao de expetions
+
+[33mcommit 64e63fb5e07211ec579f0245b3e69a4f9377c240[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Sat Jun 1 12:34:26 2024 -0300
+
+    Construcao CRUD de Emploey
+
+[33mcommit a115ce0b906003bc7a36bc272f9c8bfb529a1e72[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Thu May 30 18:46:34 2024 -0300
+
+    Criacao da API de Users,desenvolvimento do domain e repository
+
+[33mcommit 023a27cd5903bc0541aec74a1120470b21742570[m
+Author: Matheus Vitor Ferreira <153767841+MatheusVitorFerreira@users.noreply.github.com>
+Date:   Thu May 30 17:37:26 2024 -0300
+
+    Create README.md
+
+[33mcommit c16356f4084470a1ef6e69579f813bf1e6efcc46[m
+Author: MatheusVitorFerreira <matheusvitor.dev00@gmail.com>
+Date:   Thu May 30 17:24:14 2024 -0300
+
+    Criacao do projeto
+    E o eureka para conectar os microservicos

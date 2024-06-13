@@ -1,5 +1,6 @@
 package edu.microservices.msusers.domain;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,8 @@ public class Client extends Users {
 
     @Id
     private String id;
+
+    @NotBlank
     private double patrimony;
 
     @DBRef

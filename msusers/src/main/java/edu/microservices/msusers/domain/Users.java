@@ -1,5 +1,6 @@
 package edu.microservices.msusers.domain;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,5 @@ public abstract class Users {
     private String password;
     private int age;
     private String phoneNumber;
+    private String cpf;
 }

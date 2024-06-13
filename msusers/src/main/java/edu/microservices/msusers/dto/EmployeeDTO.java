@@ -3,6 +3,7 @@ package edu.microservices.msusers.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.microservices.msusers.domain.Address;
 import edu.microservices.msusers.domain.Employee;
+import edu.microservices.msusers.domain.TypeEmployee;
 import lombok.Data;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class EmployeeDTO {
     private int age;
     private String phoneNumber;
     private String id;
+    private TypeEmployee typeEmployee;
     private String position;
     private double salary;
     private String department;
@@ -32,6 +34,7 @@ public class EmployeeDTO {
         this.position = employee.getPosition();
         this.salary = employee.getSalary();
         this.department = employee.getDepartment();
+        this.typeEmployee = employee.getTypeEmployee();
         this.addresses = addresses;
     }
 
@@ -42,6 +45,7 @@ public class EmployeeDTO {
         employee.setPhoneNumber(this.phoneNumber);
         employee.setAge(this.age);
         employee.setId(this.id);
+        employee.setTypeEmployee(this.typeEmployee);
         employee.setPosition(this.position);
         employee.setSalary(this.salary);
         employee.setDepartment(this.department);

@@ -1,20 +1,13 @@
 spring:
   profiles:
-    active: dev
+    activate:
+      on-profile: test
   application:
     name: msusers
-  data:
-    mongodb:
-      host: 127.0.0.1
-      port: 27017
-      database: msusers
-  jpa:
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
 
 server:
+  error:
+    include-stacktrace: never
   port: 0
   instance:
     hostname: localhost
