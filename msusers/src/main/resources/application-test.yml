@@ -1,4 +1,5 @@
 spring:
+  profiles: test
   datasource:
     url: jdbc:h2:mem:testdb
     username: sa

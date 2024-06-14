@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import edu.microservices.msusers.domain.Address;
 import edu.microservices.msusers.domain.Employee;
 import edu.microservices.msusers.domain.TypeEmployee;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
@@ -12,15 +14,31 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class EmployeeDTO {
+
+    @NotBlank
     private String fullName;
+
+    @NotBlank
     private String password;
+
+    @NotNull
     private int age;
+
+    @NotBlank
     private String phoneNumber;
-    private String id;
+
+    @NotNull
     private TypeEmployee typeEmployee;
+
+    @NotBlank
     private String position;
+
+    @NotNull
     private double salary;
+
+    @NotBlank
     private String department;
+
     private List<Address> addresses;
 
     public EmployeeDTO() {}
@@ -30,7 +48,6 @@ public class EmployeeDTO {
         this.password = employee.getPassword();
         this.phoneNumber = employee.getPhoneNumber();
         this.age = employee.getAge();
-        this.id = employee.getId();
         this.position = employee.getPosition();
         this.salary = employee.getSalary();
         this.department = employee.getDepartment();
@@ -44,7 +61,6 @@ public class EmployeeDTO {
         employee.setPassword(this.password);
         employee.setPhoneNumber(this.phoneNumber);
         employee.setAge(this.age);
-        employee.setId(this.id);
         employee.setTypeEmployee(this.typeEmployee);
         employee.setPosition(this.position);
         employee.setSalary(this.salary);

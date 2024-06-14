@@ -2,6 +2,7 @@ package edu.microservices.msusers.domain;
 
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,16 +21,13 @@ public class Employee extends Users {
     @Id
     private String id;
 
-    @NotBlank
+
     private String position;
 
-    @NotBlank
     private double salary;
 
-    @NotBlank
     private String department;
 
-    @NotBlank
     private TypeEmployee typeEmployee;
 
     @DBRef
