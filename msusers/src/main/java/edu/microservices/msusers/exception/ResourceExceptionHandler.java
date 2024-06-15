@@ -2,6 +2,7 @@ package edu.microservices.msusers.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.microservices.msusers.exception.erros.ClientNotFoundException;
+import edu.microservices.msusers.exception.erros.DuplicateClientException;
 import edu.microservices.msusers.exception.erros.DuplicateEmployeeException;
 import edu.microservices.msusers.exception.erros.EmployeeNotFoundException;
 import jakarta.servlet.ServletException;
@@ -21,7 +22,7 @@ public class ResourceExceptionHandler {
 
 	@ExceptionHandler(EmployeeNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<StandardError> ClinicaNotFoundException(EmployeeNotFoundException e,
+	public ResponseEntity<StandardError> EmployeeNotFoundException(EmployeeNotFoundException e,
 			HttpServletRequest request) {
 
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
@@ -30,7 +31,7 @@ public class ResourceExceptionHandler {
 
 	@ExceptionHandler(DuplicateEmployeeException.class)
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ResponseEntity<StandardError> ClinicaNotFoundException(DuplicateEmployeeException e,
+	public ResponseEntity<StandardError> DuplicateEmployeeException(DuplicateEmployeeException e,
 			HttpServletRequest request) {
 
 		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
@@ -38,11 +39,20 @@ public class ResourceExceptionHandler {
 	}
 	@ExceptionHandler(ClientNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ResponseEntity<StandardError> ClinicaNotFoundException(ClientNotFoundException e,
+	public ResponseEntity<StandardError> ClientNotFoundException(ClientNotFoundException e,
 			HttpServletRequest request) {
 
 		StandardError err = new StandardError(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
+	}
+
+	@ExceptionHandler(DuplicateClientException.class)
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	public ResponseEntity<StandardError> DuplicateClientException(DuplicateClientException e,
+																	HttpServletRequest request) {
+
+		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	}
 
 	public void handle(HttpServletRequest request, HttpServletResponse response,

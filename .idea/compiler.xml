@@ -10,7 +10,7 @@
         <module name="eurekaserver" />
         <module name="msusers" />
         <module name="cloudgateway" />
-        <module name="mscartao" />
+        <module name="mscard" />
       </profile>
     </annotationProcessing>
   </component>
@@ -18,7 +18,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="cloudgateway" options="-parameters" />
       <module name="eurekaserver" options="-parameters" />
-      <module name="mscartao" options="-parameters" />
+      <module name="mscard" options="-parameters" />
       <module name="msusers" options="-parameters" />
     </option>
   </component>

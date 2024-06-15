@@ -3,11 +3,10 @@ package edu.microservices.mscartao.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,11 +15,11 @@ public class Card implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID idCard;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCard;
 
     @Column
-    private  String cardName;
+    private String cardName;
 
     @Column
     private BigDecimal income;
@@ -34,10 +33,11 @@ public class Card implements Serializable {
 
     public Card(String cardName,
                 BigDecimal income,
+                CreditCardBrand creditCardBrand,
                 BigDecimal minLimit) {
-
         this.cardName = cardName;
         this.income = income;
+        this.creditCardBrand = creditCardBrand;
         this.minLimit = minLimit;
     }
 }
