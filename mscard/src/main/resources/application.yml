@@ -1,0 +1,23 @@
+server:
+  port: 0
+  address: localhost
+
+spring:
+  application:
+    name: mscard
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cards
+    username: postgres
+    password: 120900m
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: create
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
