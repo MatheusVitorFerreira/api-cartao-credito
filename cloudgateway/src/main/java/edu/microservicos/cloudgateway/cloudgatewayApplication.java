@@ -21,7 +21,8 @@ public class cloudgatewayApplication {
                 .routes()
                 .route(r -> r.path("/api/v1/employees/**").uri("lb://msusers"))
                 .route(r -> r.path("/api/v1/client/**").uri("lb://msusers"))
-                .route(r -> r.path("/api/v1/card/**").uri("lb://mscartao"))
+                .route(r -> r.path("/api/v1/card/**").uri("lb://mscard"))
+                .route(r -> r.path("/api/v1/credite-valuator/**").uri("lb://mscreditevaluator"))
                 .build();
     }
 }

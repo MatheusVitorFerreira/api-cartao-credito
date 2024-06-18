@@ -5,8 +5,6 @@ spring:
     name: msusers
 
 server:
-  error:
-    include-stacktrace: never
   port: 0
   instance:
     hostname: localhost

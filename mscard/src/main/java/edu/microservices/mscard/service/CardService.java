@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -59,7 +60,6 @@ public class CardService {
                 throw new DuplicateCardException("Another card with name '" + newName + "' already exists");
             }
 
-            // Update the existing card with new data
             existingCard.setCardName(newName);
             existingCard.setIncome(cardDTO.getIncome());
             existingCard.setCreditCardBrand(cardDTO.getCreditCardBrand());
@@ -80,5 +80,10 @@ public class CardService {
         } else {
             throw new CardNotFoundException("Card not found with ID: " + id);
         }
+    }
+
+    public List<Card> getCardIncomeLessOrEqual(long income){
+        var incomeBigDecimal = BigDecimal.valueOf(income);
+        return cardRepository.findByIncomeLessThanEqual(incomeBigDecimal);
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public class Client extends Users {
 
     @Id
-    private String id;
+    private String idClient;
 
     @NotBlank
     private double patrimony;

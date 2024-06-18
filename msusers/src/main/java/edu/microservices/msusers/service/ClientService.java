@@ -11,6 +11,7 @@ import edu.microservices.msusers.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public class ClientService {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public List<ClientDTO> findAll(){
+    public List<ClientDTO> findAll() {
         return clientRepository.findAll().stream().map(client -> {
             List<Address> addresses = addressRepository
                     .findAllById(client
@@ -34,9 +35,10 @@ public class ClientService {
                             .stream()
                             .map(Address::getId)
                             .collect(Collectors.toList()));
-            return new ClientDTO(client,addresses);
+            return new ClientDTO(client, addresses);
         }).collect(Collectors.toList());
     }
+
     public ClientDTO findById(String id) {
         Optional<Client> client = clientRepository.findById(id);
         if (client.isPresent()) {
@@ -51,29 +53,29 @@ public class ClientService {
         }
     }
 
-    public ClientDTO save(ClientDTO clientDTO){
+    public ClientDTO save(ClientDTO clientDTO) {
         String name = clientDTO.getFullName();
-        if(clientRepository.existsByFullName(name)){
+        if (clientRepository.existsByFullName(name)) {
             throw new DuplicateClientException("Client" +
                     " with name " + name + " already exists");
         }
         String encryptedPassword = encryptPassword(clientDTO.getPassword());
         List<Address> addresses = clientDTO.getAddresses();
-        if(addresses != null){
-             addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
+        if (addresses != null) {
+            addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
         }
         Client client = clientDTO.toClient();
         client.setPassword(encryptedPassword);
         client.setAddresses(addresses);
         Client saveClient = clientRepository.save(client);
-        return new ClientDTO(saveClient,addresses);
+        return new ClientDTO(saveClient, addresses);
     }
 
-    public ClientDTO update(String id,ClientDTO object){
+    public ClientDTO update(String id, ClientDTO object) {
         Optional<Client> optionalClient = clientRepository.findById(id);
-        if(optionalClient.isPresent()){
+        if (optionalClient.isPresent()) {
             String name = object.getFullName();
-            if(clientRepository.existsByFullNameAndIdNot(name,id)){
+            if (clientRepository.existsByFullName(name)) {
                 throw new DuplicateClientException("Another client with name" + name + " already exists");
             }
             Client client = optionalClient.get();
@@ -83,16 +85,17 @@ public class ClientService {
             client.setPhoneNumber(object.getPhoneNumber());
 
             List<Address> addresses = object.getAddresses();
-            if(addresses != null){
+            if (addresses != null) {
                 addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
                 client.setAddresses(addresses);
             }
             Client updateClient = clientRepository.save(client);
-            return new ClientDTO(updateClient,addresses);
-        }else{
+            return new ClientDTO(updateClient, addresses);
+        } else {
             throw new ClientNotFoundException("Client not found with id " + id);
         }
     }
+
     public void delete(String id) {
         Optional<Client> optionalClient = clientRepository.findById(id);
         if (optionalClient.isPresent()) {
@@ -108,8 +111,8 @@ public class ClientService {
             throw new EmployeeNotFoundException("Client not found with id " + id);
         }
     }
+
     private String encryptPassword(String password) {
         return passwordEncoder.encode(password);
     }
 }
-

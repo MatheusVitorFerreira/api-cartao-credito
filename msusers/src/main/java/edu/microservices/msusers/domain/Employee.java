@@ -19,7 +19,7 @@ import java.util.List;
 public class Employee extends Users {
 
     @Id
-    private String id;
+    private String idEmployees;
 
 
     private String position;

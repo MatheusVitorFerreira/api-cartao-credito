@@ -76,7 +76,7 @@ public class EmployeeService {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
             String name = object.getFullName();
-            if (employeeRepository.existsByFullNameAndIdNot(name, id)) {
+            if (employeeRepository.existsByFullName(name)) {
                 throw new DuplicateEmployeeException("Another employee with name " + name + " already exists");
             }
 

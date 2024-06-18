@@ -15,7 +15,7 @@ public class ClientDTO {
     private String password;
     private int age;
     private String phoneNumber;
-    private String id;
+    private String idClient;
     private double patrimony;
     private String cpf;
     private List<Address> addresses;
@@ -28,19 +28,20 @@ public class ClientDTO {
         this.age = client.getAge();
         this.password = client.getPassword();
         this.phoneNumber = client.getPhoneNumber();
-        this.id = client.getId();
+        this.idClient = client.getIdClient();
         this.patrimony = client.getPatrimony();
         this.addresses = addresses;
         this.cpf = client.getCpf();
     }
-    public Client toClient(){
+
+    public Client toClient() {
         Client client = new Client();
         client.setFullName(this.fullName);
         client.setCpf(this.cpf);
         client.setAge(this.age);
         client.setPassword(this.password);
         client.setPhoneNumber(this.phoneNumber);
-        client.setId(this.id);
+        client.setIdClient(this.idClient);
         client.setPatrimony(this.patrimony);
         return client;
     }

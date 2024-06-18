@@ -1,26 +1,33 @@
 package edu.microservices.msusers.controller;
 
+import edu.microservices.msusers.domain.Client;
 import edu.microservices.msusers.dto.ClientDTO;
 import edu.microservices.msusers.service.ClientService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/client")
+@RequiredArgsConstructor
+@Slf4j
 public class ClientController {
 
     @Autowired
     private ClientService clientService;
 
     @GetMapping
-    public ResponseEntity<List<ClientDTO>> getAllClient() {
-        List<ClientDTO> customers = clientService.findAll();
-        return ResponseEntity.ok(customers);
+    public ResponseEntity<List<ClientDTO>> getAllClients() {
+        List<ClientDTO> clients = clientService.findAll();
+        return ResponseEntity.ok(clients);
     }
 
     @GetMapping("/{id}")
@@ -31,14 +38,20 @@ public class ClientController {
 
     @PostMapping()
     public ResponseEntity<Void> createClient(@Valid @RequestBody ClientDTO clientDTO) {
-        clientService.save(clientDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        ClientDTO savedClientDTO = clientService.save(clientDTO);
+
+        URI headerLocation = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{idClient}")
+                .buildAndExpand(savedClientDTO.getIdClient())
+                .toUri();
+        return ResponseEntity.created(headerLocation).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDTO> updateClient(@PathVariable String id, @Valid @RequestBody ClientDTO object) {
-        ClientDTO updateClient = clientService.update(id, object);
-        return ResponseEntity.ok(updateClient);
+    public ResponseEntity<ClientDTO> updateClient(@PathVariable String id, @Valid @RequestBody ClientDTO clientDTO) {
+        ClientDTO updatedClient = clientService.update(id, clientDTO);
+        return ResponseEntity.ok(updatedClient);
     }
 
     @DeleteMapping("/{id}")
