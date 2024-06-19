@@ -30,12 +30,11 @@ public class ClientController {
         return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ClientDTO> getClientById(@PathVariable String id) {
+    @GetMapping("/get-id")
+    public ResponseEntity<ClientDTO> getClientById(@RequestParam("idClient") String id) {
         ClientDTO clientDTO = clientService.findById(id);
         return ResponseEntity.ok(clientDTO);
     }
-
     @PostMapping()
     public ResponseEntity<Void> createClient(@Valid @RequestBody ClientDTO clientDTO) {
         ClientDTO savedClientDTO = clientService.save(clientDTO);
@@ -48,13 +47,13 @@ public class ClientController {
         return ResponseEntity.created(headerLocation).build();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{idClient}")
     public ResponseEntity<ClientDTO> updateClient(@PathVariable String id, @Valid @RequestBody ClientDTO clientDTO) {
         ClientDTO updatedClient = clientService.update(id, clientDTO);
         return ResponseEntity.ok(updatedClient);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{idClient}")
     public ResponseEntity<Void> deleteClient(@PathVariable String id) {
         clientService.delete(id);
         return ResponseEntity.noContent().build();

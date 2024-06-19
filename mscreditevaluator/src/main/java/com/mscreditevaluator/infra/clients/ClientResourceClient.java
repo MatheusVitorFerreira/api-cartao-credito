@@ -6,11 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 @FeignClient(value = "msusers", path = "/api/v1/client")
 public interface ClientResourceClient {
 
-    @GetMapping
-    ResponseEntity<List<DataClient>> getClientById(@RequestParam("idClient") String id);
+    @GetMapping("/get-id")
+    ResponseEntity<DataClient> getClientById(@RequestParam("idClient") String id);
 }

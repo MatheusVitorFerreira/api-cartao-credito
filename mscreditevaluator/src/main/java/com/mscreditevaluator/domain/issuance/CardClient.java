@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ClientCard {
+public class CardClient {
     private String nameCard;
     private String creditCardBrand;
     private BigDecimal limitApproved ;

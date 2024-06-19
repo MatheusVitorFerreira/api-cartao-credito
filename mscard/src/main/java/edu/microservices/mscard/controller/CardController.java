@@ -1,6 +1,5 @@
 package edu.microservices.mscard.controller;
 
-
 import edu.microservices.mscard.domain.Card;
 import edu.microservices.mscard.domain.CardClient;
 import edu.microservices.mscard.dto.CardByClientDTO;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,13 +32,13 @@ public class CardController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity <CardDTO> getCardById(@PathVariable Long id){
-        CardDTO  card = cardService.findById(id);
+    public ResponseEntity<CardDTO> getCardById(@PathVariable Long id){
+        CardDTO card = cardService.findById(id);
         return ResponseEntity.ok(card);
     }
 
     @GetMapping(value = "/less/income")
-    public ResponseEntity <List<Card>> getCardIncomeMax(@RequestParam("income") Long income){
+    public ResponseEntity<List<Card>> getCardIncomeMax(@RequestParam("income") Long income){
         List<Card> listCard = cardService.getCardIncomeLessOrEqual(income);
         return ResponseEntity.ok(listCard);
     }
@@ -52,10 +50,11 @@ public class CardController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity <CardDTO> updateCard(@PathVariable Long id, @Valid @RequestBody CardDTO object) {
-        CardDTO  updateCard = cardService.update(id,object);
+    public ResponseEntity<CardDTO> updateCard(@PathVariable Long id, @Valid @RequestBody CardDTO object) {
+        CardDTO updateCard = cardService.update(id, object);
         return ResponseEntity.ok(updateCard);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCard(@PathVariable Long id) {
         cardService.deleteCard(id);

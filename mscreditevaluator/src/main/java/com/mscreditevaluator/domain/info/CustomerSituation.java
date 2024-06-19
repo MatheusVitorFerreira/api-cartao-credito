@@ -1,6 +1,6 @@
 package com.mscreditevaluator.domain.info;
 
-import com.mscreditevaluator.domain.issuance.ClientCard;
+import com.mscreditevaluator.domain.issuance.CardClient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +14,5 @@ import java.util.List;
 @Builder
 public class CustomerSituation {
     private DataClient client;
-    private List<ClientCard> cards;
+    private List<CardClient> cards;
 }
