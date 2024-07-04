@@ -22,6 +22,9 @@ public class Client extends Users {
     @NotBlank
     private double patrimony;
 
+    @NotBlank
+    private double income;
+
     @DBRef
     private List<Address> addresses;
 }

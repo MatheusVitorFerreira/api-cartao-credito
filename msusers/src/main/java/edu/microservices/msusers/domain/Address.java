@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @Document(collection = "addresses")
 public class Address {
 
@@ -20,5 +19,10 @@ public class Address {
     private String state;
     private String country;
 
-
+    public Address(String city, String street, String state, String country) {
+        this.city = city;
+        this.street = street;
+        this.state = state;
+        this.country = country;
+    }
 }

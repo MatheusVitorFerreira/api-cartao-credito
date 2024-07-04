@@ -17,6 +17,7 @@ public class ClientDTO {
     private String phoneNumber;
     private String idClient;
     private double patrimony;
+    private double income;
     private String cpf;
     private List<Address> addresses;
 
@@ -31,6 +32,7 @@ public class ClientDTO {
         this.idClient = client.getIdClient();
         this.patrimony = client.getPatrimony();
         this.addresses = addresses;
+        this.income = client.getIncome();
         this.cpf = client.getCpf();
     }
 
@@ -43,6 +45,7 @@ public class ClientDTO {
         client.setPhoneNumber(this.phoneNumber);
         client.setIdClient(this.idClient);
         client.setPatrimony(this.patrimony);
+        client.setIncome(this.income);
         return client;
     }
 }

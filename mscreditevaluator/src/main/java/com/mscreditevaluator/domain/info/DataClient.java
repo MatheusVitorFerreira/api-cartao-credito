@@ -14,4 +14,5 @@ public class DataClient implements Serializable {
     private String fullName;
     private Integer age;
     private List<DataAddress> addresses;
+    private double income;
 }

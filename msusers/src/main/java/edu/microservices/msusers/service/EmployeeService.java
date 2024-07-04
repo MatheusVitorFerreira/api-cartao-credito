@@ -27,41 +27,32 @@ public class EmployeeService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<EmployeeDTO> findAll() {
-        return employeeRepository.findAll().stream().map(employee -> {
-            List<Address> addresses = addressRepository
-                    .findAllById(employee
-                            .getAddresses()
-                            .stream()
-                            .map(Address::getId)
-                            .collect(Collectors.toList()));
-            return new EmployeeDTO(employee, addresses);
-        }).collect(Collectors.toList());
+        List<Employee> employees = employeeRepository.findAll();
+        if (employees.isEmpty()) {
+            throw new EmployeeNotFoundException("Nenhum funcionário encontrado");
+        }
+        return employees.stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public EmployeeDTO findById(String id) {
-        Optional<Employee> employee = employeeRepository.findById(id);
-        if (employee.isPresent()) {
-            List<Address> addresses = addressRepository.findAllById(employee.get()
-                    .getAddresses()
-                    .stream()
-                    .map(Address::getId)
-                    .collect(Collectors.toList()));
-            return new EmployeeDTO(employee.get(), addresses);
+        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+        if (optionalEmployee.isPresent()) {
+            return convertToDTO(optionalEmployee.get());
         } else {
-            throw new EmployeeNotFoundException("Employee not found with id " + id);
+            throw new EmployeeNotFoundException("Funcionário não encontrado com o ID: " + id);
         }
     }
 
     public EmployeeDTO save(EmployeeDTO employeeDTO) {
         String name = employeeDTO.getFullName();
         if (employeeRepository.existsByFullName(name)) {
-            throw new DuplicateEmployeeException("Employee with name " + name + " already exists");
+            throw new DuplicateEmployeeException("Funcionário com nome " + name + " já existe");
         }
 
-        String encryptedPassword = encryptPassword(employeeDTO.getPassword());
+        String encryptedPassword = passwordEncoder.encode(employeeDTO.getPassword());
 
         List<Address> addresses = employeeDTO.getAddresses();
-        if (addresses != null) {
+        if (addresses != null && !addresses.isEmpty()) {
             addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
         }
 
@@ -69,32 +60,32 @@ public class EmployeeService {
         employee.setAddresses(addresses);
         employee.setPassword(encryptedPassword);
         Employee savedEmployee = employeeRepository.save(employee);
-        return new EmployeeDTO(savedEmployee, addresses);
+        return convertToDTO(savedEmployee);
     }
 
-    public EmployeeDTO update(String id, EmployeeDTO object) {
+    public EmployeeDTO update(String id, EmployeeDTO employeeDTO) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
-            String name = object.getFullName();
+            String name = employeeDTO.getFullName();
             if (employeeRepository.existsByFullName(name)) {
-                throw new DuplicateEmployeeException("Another employee with name " + name + " already exists");
+                throw new DuplicateEmployeeException("Outro funcionário com nome " + name + " já existe");
             }
 
             Employee employee = optionalEmployee.get();
-            employee.setPosition(object.getPosition());
-            employee.setSalary(object.getSalary());
-            employee.setDepartment(object.getDepartment());
+            employee.setPosition(employeeDTO.getPosition());
+            employee.setSalary(employeeDTO.getSalary());
+            employee.setDepartment(employeeDTO.getDepartment());
 
-            List<Address> addresses = object.getAddresses();
-            if (addresses != null) {
+            List<Address> addresses = employeeDTO.getAddresses();
+            if (addresses != null && !addresses.isEmpty()) {
                 addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
                 employee.setAddresses(addresses);
             }
 
             Employee updatedEmployee = employeeRepository.save(employee);
-            return new EmployeeDTO(updatedEmployee, addresses);
+            return convertToDTO(updatedEmployee);
         } else {
-            throw new EmployeeNotFoundException("Employee not found with id " + id);
+            throw new EmployeeNotFoundException("Funcionário não encontrado com o ID: " + id);
         }
     }
 
@@ -110,11 +101,13 @@ public class EmployeeService {
             }
             employeeRepository.deleteById(id);
         } else {
-            throw new EmployeeNotFoundException("Employee not found with id " + id);
+            throw new EmployeeNotFoundException("Funcionário não encontrado com o ID: " + id);
         }
     }
-    private String encryptPassword(String password) {
-        return passwordEncoder.encode(password);
+
+    private EmployeeDTO convertToDTO(Employee employee) {
+        List<Address> addresses = addressRepository.findAllById(
+                employee.getAddresses().stream().map(Address::getId).collect(Collectors.toList()));
+        return new EmployeeDTO(employee, addresses);
     }
 }
-

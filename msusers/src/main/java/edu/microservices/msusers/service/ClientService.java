@@ -83,6 +83,7 @@ public class ClientService {
             client.setPassword(object.getPassword());
             client.setPatrimony(object.getPatrimony());
             client.setPhoneNumber(object.getPhoneNumber());
+            client.setIncome(object.getIncome());
 
             List<Address> addresses = object.getAddresses();
             if (addresses != null) {

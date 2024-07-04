@@ -6,13 +6,16 @@ import edu.microservices.msusers.domain.Employee;
 import edu.microservices.msusers.domain.TypeEmployee;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
+@AllArgsConstructor
 public class EmployeeDTO {
 
     @NotBlank
@@ -41,7 +44,8 @@ public class EmployeeDTO {
 
     private List<Address> addresses;
 
-    public EmployeeDTO() {}
+    public EmployeeDTO() {
+    }
 
     public EmployeeDTO(Employee employee, List<Address> addresses) {
         this.fullName = employee.getFullName();

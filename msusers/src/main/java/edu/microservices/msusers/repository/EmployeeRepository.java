@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EmployeeRepository extends MongoRepository<Employee, String> {
 
-    boolean existsByFullName(String fullName);
+    boolean existsByFullName(String name);
 }
