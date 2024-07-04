@@ -22,27 +22,28 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
    
 2. **Serviço de Usuário**:
    - **Função**: Gerenciar a criação, atualização e consulta de dados dos usuários.
-   - **Tecnologia**: Spring Boot.
-   - **Banco de Dados**: PostgreSQL.
+   - **Tecnologia**: Spring Boot e Java.
+   - **Banco de Dados**: MongoDB.
 
 3. **Serviço de Cartão**:
    - **Função**: Gerenciar a geração e emissão dos cartões de crédito.
-   - **Tecnologia**: Spring Boot.
+   - **Tecnologia**: Spring Boot e Java.
    - **Banco de Dados**: PostgreSQL.
 
-4. **Serviço de Transações**:
-   - **Função**: Registrar e processar transações feitas com os cartões de crédito.
-   - **Tecnologia**: Spring Boot.
-   - **Banco de Dados**: PostgreSQL.
-
-5. **Serviço de Notificações**:
-   - **Função**: Enviar notificações aos usuários sobre eventos importantes, como a emissão de um novo cartão ou transações realizadas.
-   - **Tecnologia**: Spring Boot.
+5. **Serviço de Avaliação de Credito**:
+   - **Função**: Responsável por analisar o perfil do cliente com base no seu ID,
+   listar os cartões disponíveis de acordo com a renda do cliente, e aplicar uma restrição de 30% da renda como limite aprovado para cada cartão.
+   - **Tecnologia**: Spring Boot e Java.
    - **Mensageria**: RabbitMQ.
 
 6. **RabbitMQ**:
    - **Função**: Facilitar a comunicação assíncrona e desacoplada entre os microsserviços.
    - **Tecnologia**: RabbitMQ.
+
+7. **Eureka Server**:
+  - **Função**: Serviço de registro e descoberta de microsserviços na arquitetura de microsserviços.
+  - **Tecnologia**: Spring Boot e Java.
+  - **Benefícios**: Permite que os microsserviços se registrem, localizem e comuniquem dinamicamente uns com os outros.
 
 #### Segurança
 
@@ -60,20 +61,19 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
    - A Gateway API encaminha a solicitação para o Serviço de Cartão.
    - O Serviço de Cartão gera um novo cartão e armazena os detalhes no PostgreSQL.
    - O Serviço de Cartão envia uma mensagem ao Serviço de Notificações via RabbitMQ para informar o usuário sobre a emissão do cartão.
-
-3. **Processamento de Transações**:
-   - As transações realizadas com os cartões são enviadas para o Serviço de Transações.
-   - O Serviço de Transações processa as transações e atualiza os registros no PostgreSQL.
-   - Notificações de transações são enviadas ao Serviço de Notificações via RabbitMQ.
-
-4. **Notificações**:
-   - O Serviço de Notificações recebe mensagens via RabbitMQ e envia notificações apropriadas aos usuários.
+     
+3. **Avaliação de Crédito**:
+  - O cliente solicita a emissão de um novo cartão via Gateway API.
+  - A Gateway API encaminha a solicitação para o Serviço de Avaliação de Crédito.
+  - O Serviço de Avaliação de Crédito consulta os dados do cliente no Serviço de Usuário para obter informações financeiras relevantes, como a renda mensal.
+  - Com base na renda mensal do cliente, o Serviço de Avaliação de Crédito determina os cartões de crédito disponíveis que se enquadram na restrição de limite de crédito, limitando-o a 30% da renda mensal     do cliente.
+  - O Serviço de Avaliação de Crédito retorna ao Serviço de Cartão a lista de cartões disponíveis com os limites aprovados.
 
 #### Tecnologias Utilizadas
 
 - **Linguagens**: Java
 - **Frameworks**: Spring Boot
-- **Banco de Dados**: PostgreSQL, H2 (para testes)
+- **Banco de Dados**: PostgreSQL,MongoDB ,H2 (para testes)
 - **Mensageria**: RabbitMQ
 - **Autenticação e Autorização**: Keycloak
 - **Containerização**: Docker
