@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +15,7 @@ import java.util.List;
 public class Employee extends Users {
 
     @Id
-    private String idEmployees;
+    private String idEmployee; // Aqui deve ser idEmployee, não idEmployees
 
     private String position;
 
@@ -28,6 +26,6 @@ public class Employee extends Users {
     private TypeEmployee typeEmployee;
 
     @DBRef
-    private List<Address> addresses;
+    private Address address;
 
 }

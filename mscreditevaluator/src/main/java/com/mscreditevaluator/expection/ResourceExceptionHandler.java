@@ -2,6 +2,7 @@ package com.mscreditevaluator.expection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mscreditevaluator.expection.erros.DataClientNotFoundExcption;
+import com.mscreditevaluator.expection.erros.ErroRequestCardException;
 import com.mscreditevaluator.expection.erros.ErrorCommunicationMicroservicesException;
 import com.mscreditevaluator.expection.erros.ErrorRequestCardException;
 import jakarta.servlet.ServletException;
@@ -24,6 +25,15 @@ public class ResourceExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<StandardError> ErrorRequestCardException(ErrorRequestCardException e,
                                                                    HttpServletRequest request) {
+
+        StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);
+    }
+
+    @ExceptionHandler(ErroRequestCardException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<StandardError> ErroRequestCardException(ErroRequestCardException e,
+                                                                 HttpServletRequest request) {
 
         StandardError err = new StandardError(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(err);

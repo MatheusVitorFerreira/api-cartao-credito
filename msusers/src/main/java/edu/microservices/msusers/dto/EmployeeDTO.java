@@ -10,14 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class EmployeeDTO {
 
+    private String idEmployee;
     @NotBlank
     private String fullName;
 
@@ -42,25 +41,24 @@ public class EmployeeDTO {
     @NotBlank
     private String department;
 
-    private List<Address> addresses;
+    private Address address;
 
-    public EmployeeDTO() {
-    }
-
-    public EmployeeDTO(Employee employee, List<Address> addresses) {
+    public EmployeeDTO(Employee employee, Address address) {
+        this.idEmployee = employee.getIdEmployee(); // Atribuir corretamente o ID do Employee
         this.fullName = employee.getFullName();
         this.password = employee.getPassword();
         this.phoneNumber = employee.getPhoneNumber();
         this.age = employee.getAge();
+        this.typeEmployee = employee.getTypeEmployee();
         this.position = employee.getPosition();
         this.salary = employee.getSalary();
         this.department = employee.getDepartment();
-        this.typeEmployee = employee.getTypeEmployee();
-        this.addresses = addresses;
+        this.address = address;
     }
 
     public Employee toEmployee() {
         Employee employee = new Employee();
+        employee.setIdEmployee(this.idEmployee);
         employee.setFullName(this.fullName);
         employee.setPassword(this.password);
         employee.setPhoneNumber(this.phoneNumber);

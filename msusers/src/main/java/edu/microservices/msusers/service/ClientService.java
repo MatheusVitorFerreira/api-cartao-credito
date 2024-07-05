@@ -28,26 +28,23 @@ public class ClientService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public List<ClientDTO> findAll() {
-        return clientRepository.findAll().stream().map(client -> {
-            List<Address> addresses = addressRepository
-                    .findAllById(client
-                            .getAddresses()
-                            .stream()
-                            .map(Address::getId)
-                            .collect(Collectors.toList()));
-            return new ClientDTO(client, addresses);
-        }).collect(Collectors.toList());
+        return clientRepository.findAll().stream()
+                .map(client -> {
+                    Address address = client.getAddress();
+                    return new ClientDTO(client, address);
+                })
+                .collect(Collectors.toList());
     }
 
     public ClientDTO findById(String id) {
-        Optional<Client> client = clientRepository.findById(id);
-        if (client.isPresent()) {
-            List<Address> addresses = addressRepository.findAllById(client.get()
-                    .getAddresses()
-                    .stream()
-                    .map(Address::getId)
-                    .collect(Collectors.toList()));
-            return new ClientDTO(client.get(), addresses);
+        Optional<Client> clientOptional = clientRepository.findById(id);
+        if (clientOptional.isPresent()) {
+            Client client = clientOptional.get();
+            Address address = client.getAddress(); // Alterado para obter o único endereço
+            if (address == null) {
+                throw new ClientNotFoundException("Address not found for client with id " + id);
+            }
+            return new ClientDTO(client, address);
         } else {
             throw new ClientNotFoundException("Client not found with id " + id);
         }
@@ -56,20 +53,25 @@ public class ClientService {
     public ClientDTO save(ClientDTO clientDTO) {
         String name = clientDTO.getFullName();
         if (clientRepository.existsByFullName(name)) {
-            throw new DuplicateClientException("Client" +
-                    " with name " + name + " already exists");
+            throw new DuplicateClientException("Client with name " + name + " already exists");
         }
         String encryptedPassword = encryptPassword(clientDTO.getPassword());
-        List<Address> addresses = clientDTO.getAddresses();
-        if (addresses != null) {
-            addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
-        }
+
+        // Salvar o endereço primeiro
+        Address address = clientDTO.getAddress();
+        Address savedAddress = addressRepository.save(address);
+
+        // Criar o cliente e associar o endereço salvo
         Client client = clientDTO.toClient();
         client.setPassword(encryptedPassword);
-        client.setAddresses(addresses);
-        Client saveClient = clientRepository.save(client);
-        return new ClientDTO(saveClient, addresses);
+        client.setAddress(savedAddress);
+
+        // Salvar o cliente
+        Client savedClient = clientRepository.save(client);
+
+        return new ClientDTO(savedClient, savedAddress);
     }
+
 
     public ClientDTO update(String id, ClientDTO object) {
         Optional<Client> optionalClient = clientRepository.findById(id);
@@ -85,13 +87,13 @@ public class ClientService {
             client.setPhoneNumber(object.getPhoneNumber());
             client.setIncome(object.getIncome());
 
-            List<Address> addresses = object.getAddresses();
-            if (addresses != null) {
-                addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
-                client.setAddresses(addresses);
+            Address address = object.getAddress();
+            if (address != null) {
+                client.setAddress(address);
             }
-            Client updateClient = clientRepository.save(client);
-            return new ClientDTO(updateClient, addresses);
+
+            Client updatedClient = clientRepository.save(client);
+            return new ClientDTO(updatedClient, address);
         } else {
             throw new ClientNotFoundException("Client not found with id " + id);
         }
@@ -101,13 +103,7 @@ public class ClientService {
         Optional<Client> optionalClient = clientRepository.findById(id);
         if (optionalClient.isPresent()) {
             Client client = optionalClient.get();
-            List<Address> addresses = client.getAddresses();
-            if (addresses != null && !addresses.isEmpty()) {
-                for (Address address : addresses) {
-                    addressRepository.delete(address);
-                }
-            }
-            clientRepository.deleteById(id);
+            clientRepository.delete(client);
         } else {
             throw new EmployeeNotFoundException("Client not found with id " + id);
         }

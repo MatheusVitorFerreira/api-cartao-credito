@@ -31,13 +31,20 @@ public class EmployeeService {
         if (employees.isEmpty()) {
             throw new EmployeeNotFoundException("Nenhum funcionário encontrado");
         }
-        return employees.stream().map(this::convertToDTO).collect(Collectors.toList());
+        return employees.stream()
+                .map(employee -> {
+                    Address address = employee.getAddress();
+                    return new EmployeeDTO(employee, address);
+                })
+                .collect(Collectors.toList());
     }
 
     public EmployeeDTO findById(String id) {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
-            return convertToDTO(optionalEmployee.get());
+            Employee employee = optionalEmployee.get();
+            Address address = employee.getAddress();
+            return new EmployeeDTO(employee, address);
         } else {
             throw new EmployeeNotFoundException("Funcionário não encontrado com o ID: " + id);
         }
@@ -51,16 +58,15 @@ public class EmployeeService {
 
         String encryptedPassword = passwordEncoder.encode(employeeDTO.getPassword());
 
-        List<Address> addresses = employeeDTO.getAddresses();
-        if (addresses != null && !addresses.isEmpty()) {
-            addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
-        }
+        Address address = employeeDTO.getAddress();
+        Address savedAddress = addressRepository.save(address);
 
         Employee employee = employeeDTO.toEmployee();
-        employee.setAddresses(addresses);
+        employee.setAddress(savedAddress);
         employee.setPassword(encryptedPassword);
+
         Employee savedEmployee = employeeRepository.save(employee);
-        return convertToDTO(savedEmployee);
+        return new EmployeeDTO(savedEmployee, savedAddress);
     }
 
     public EmployeeDTO update(String id, EmployeeDTO employeeDTO) {
@@ -76,14 +82,14 @@ public class EmployeeService {
             employee.setSalary(employeeDTO.getSalary());
             employee.setDepartment(employeeDTO.getDepartment());
 
-            List<Address> addresses = employeeDTO.getAddresses();
-            if (addresses != null && !addresses.isEmpty()) {
-                addresses = addresses.stream().map(addressRepository::save).collect(Collectors.toList());
-                employee.setAddresses(addresses);
+            Address address = employeeDTO.getAddress();
+            if (address != null) {
+                Address savedAddress = addressRepository.save(address);
+                employee.setAddress(savedAddress);
             }
 
             Employee updatedEmployee = employeeRepository.save(employee);
-            return convertToDTO(updatedEmployee);
+            return new EmployeeDTO(updatedEmployee, employee.getAddress());
         } else {
             throw new EmployeeNotFoundException("Funcionário não encontrado com o ID: " + id);
         }
@@ -93,11 +99,9 @@ public class EmployeeService {
         Optional<Employee> optionalEmployee = employeeRepository.findById(id);
         if (optionalEmployee.isPresent()) {
             Employee employee = optionalEmployee.get();
-            List<Address> addresses = employee.getAddresses();
-            if (addresses != null && !addresses.isEmpty()) {
-                for (Address address : addresses) {
-                    addressRepository.delete(address);
-                }
+            Address address = employee.getAddress();
+            if (address != null) {
+                addressRepository.delete(address);
             }
             employeeRepository.deleteById(id);
         } else {
@@ -106,8 +110,7 @@ public class EmployeeService {
     }
 
     private EmployeeDTO convertToDTO(Employee employee) {
-        List<Address> addresses = addressRepository.findAllById(
-                employee.getAddresses().stream().map(Address::getId).collect(Collectors.toList()));
-        return new EmployeeDTO(employee, addresses);
+        Address address = employee.getAddress();
+        return new EmployeeDTO(employee, address);
     }
 }

@@ -13,6 +13,6 @@ public class DataClient implements Serializable {
     private String idClient;
     private String fullName;
     private Integer age;
-    private List<DataAddress> addresses;
+    private DataAddress address;
     private double income;
 }

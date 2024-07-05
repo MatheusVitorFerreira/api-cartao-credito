@@ -5,8 +5,6 @@ import edu.microservices.msusers.domain.Address;
 import edu.microservices.msusers.domain.Client;
 import lombok.Data;
 
-import java.util.List;
-
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 public class ClientDTO {
@@ -19,19 +17,19 @@ public class ClientDTO {
     private double patrimony;
     private double income;
     private String cpf;
-    private List<Address> addresses;
+    private Address address;
 
     public ClientDTO() {
     }
 
-    public ClientDTO(Client client, List<Address> addresses) {
+    public ClientDTO(Client client, Address address) {
         this.fullName = client.getFullName();
         this.age = client.getAge();
         this.password = client.getPassword();
         this.phoneNumber = client.getPhoneNumber();
         this.idClient = client.getIdClient();
         this.patrimony = client.getPatrimony();
-        this.addresses = addresses;
+        this.address = address;
         this.income = client.getIncome();
         this.cpf = client.getCpf();
     }
