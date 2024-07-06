@@ -8,8 +8,10 @@ import java.math.BigDecimal;
 
 @Data
 public class DataRequestCard {
+
     private Long idCard;
     private String idClient;
     private DataAddress address;
+    private String cpf;
     private BigDecimal limitApproved;
 }

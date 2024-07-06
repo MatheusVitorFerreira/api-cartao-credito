@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 @Data
 public class ApprovedCard {
-    private String card;
-    private String creditCardBrand;
+    private String name;
+    private String brand;
     private BigDecimal limitApproved;
 }

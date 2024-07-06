@@ -44,7 +44,7 @@ public class CrediteValuatorController {
     @PostMapping("request-card")
     public ResponseEntity<?> requestCard(@RequestBody DataRequestCard data) {
         try {
-            ProtocolRequestCard protocolRequestCard = crediteValuatorService.RequestCardIssuance(data);
+            ProtocolRequestCard protocolRequestCard = crediteValuatorService.requestCardIssuance(data);
             return ResponseEntity.ok(protocolRequestCard);
         } catch (ErroRequestCardException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());

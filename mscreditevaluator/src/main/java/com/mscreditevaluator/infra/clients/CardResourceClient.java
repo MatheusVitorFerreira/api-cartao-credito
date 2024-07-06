@@ -1,7 +1,7 @@
 package com.mscreditevaluator.infra.clients;
 
+import com.mscreditevaluator.domain.info.CardClient;
 import com.mscreditevaluator.domain.info.DataCard;
-import com.mscreditevaluator.domain.issuance.CardClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

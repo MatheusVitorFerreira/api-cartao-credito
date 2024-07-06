@@ -1,6 +1,5 @@
 package com.mscreditevaluator.domain.info;
 
-import com.mscreditevaluator.domain.issuance.CardClient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

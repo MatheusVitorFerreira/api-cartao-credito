@@ -10,5 +10,6 @@ public class DataRequestCard {
     private Long idCard;
     private String idClient;
     private BigDecimal limitApproved;
+    private String cpf;
 }
 

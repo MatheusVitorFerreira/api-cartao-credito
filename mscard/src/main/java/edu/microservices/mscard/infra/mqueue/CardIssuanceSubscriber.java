@@ -33,6 +33,7 @@ public class CardIssuanceSubscriber {
             cardClient.setCard(card);
             cardClient.setIdClient(data.getIdClient());
             cardClient.setLimitApproved(data.getLimitApproved());
+            cardClient.setCpf((data.getCpf()));
 
             clientCardRepository.save(cardClient);
 

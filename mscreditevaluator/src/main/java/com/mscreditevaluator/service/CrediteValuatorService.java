@@ -1,14 +1,11 @@
 package com.mscreditevaluator.service;
 
-import com.mscreditevaluator.domain.info.CustomerSituation;
-import com.mscreditevaluator.domain.info.DataCard;
-import com.mscreditevaluator.domain.info.DataClient;
-import com.mscreditevaluator.domain.info.ProtocolRequestCard;
+import com.mscreditevaluator.domain.info.*;
 import com.mscreditevaluator.domain.issuance.ApprovedCard;
-import com.mscreditevaluator.domain.issuance.CardClient;
 import com.mscreditevaluator.domain.issuance.DataRequestCard;
 import com.mscreditevaluator.domain.issuance.ReturnCustomerReview;
 import com.mscreditevaluator.expection.erros.DataClientNotFoundExcption;
+import com.mscreditevaluator.expection.erros.ErroRequestCardException;
 import com.mscreditevaluator.expection.erros.ErrorCommunicationMicroservicesException;
 import com.mscreditevaluator.infra.clients.CardResourceClient;
 import com.mscreditevaluator.infra.clients.ClientResourceClient;
@@ -56,6 +53,7 @@ public class CrediteValuatorService {
             throw new ErrorCommunicationMicroservicesException("Erro ao obter situação do cliente: " + e.getMessage());
         }
     }
+
     public ReturnCustomerReview performAssessment(String idClient, Long income)
             throws DataClientNotFoundExcption, ErrorCommunicationMicroservicesException {
         try {
@@ -76,12 +74,12 @@ public class CrediteValuatorService {
                 throw new ErrorCommunicationMicroservicesException("Erro ao obter dados dos cartões");
             }
 
-            List<DataCard> cards = cardResponse.getBody();
+            List<DataCard> dataCards = cardResponse.getBody();
 
-            List<ApprovedCard> approvedCards = cards.stream().map(card -> {
+            List<ApprovedCard> approvedCards = dataCards.stream().map(dataCard -> {
                 ApprovedCard approvedCard = new ApprovedCard();
-                approvedCard.setCard(card.getCardName());
-                approvedCard.setCreditCardBrand(card.getCreditCardBrand());
+                approvedCard.setName(dataCard.getCardName());
+                approvedCard.setBrand(dataCard.getCreditCardBrand());
                 approvedCard.setLimitApproved(limitApproved);
                 return approvedCard;
             }).collect(Collectors.toList());
@@ -96,13 +94,14 @@ public class CrediteValuatorService {
             throw new ErrorCommunicationMicroservicesException("Erro ao realizar a avaliação do cliente");
         }
     }
-    public ProtocolRequestCard RequestCardIssuance(DataRequestCard dados) {
+
+    public ProtocolRequestCard requestCardIssuance (DataRequestCard data) {
         try {
-            publisherCardIssuanceRequest.requestCard(dados);
-            var protocolo = UUID.randomUUID().toString();
-            return  new ProtocolRequestCard(protocolo);
+            publisherCardIssuanceRequest.requestCard(data);
+            var protocol = UUID.randomUUID().toString();
+            return new ProtocolRequestCard(protocol);
         } catch (Exception e) {
-            throw  new ErrorCommunicationMicroservicesException(e.getMessage());
+            throw new ErroRequestCardException(e.getMessage());
         }
     }
 }
