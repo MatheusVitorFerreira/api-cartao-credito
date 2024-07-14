@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(value = "mscard", url = "http://localhost:8082/mscard/api/v1/card")
+@FeignClient(name = "mscard", url = "http://localhost:8082")
 public interface CardResourceClient {
 
-    @GetMapping
+    @GetMapping("/api/v1/card")
     ResponseEntity<List<CardClient>> getCartoesByCliente(@RequestParam("idClient") String idClient);
 
-    @GetMapping(value = "/less/income")
+    @GetMapping(value = "/api/v1/card/less/income")
     ResponseEntity<List<DataCard>> getCardIncomeMax(@RequestParam("income") Long income);
 }

@@ -7,6 +7,11 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8081/realms/msapicard
 server:
   port: 8082
 
@@ -17,4 +22,7 @@ server:
       service-url:
         defaultZone: http://localhost:8761
 
-
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: DEBUG

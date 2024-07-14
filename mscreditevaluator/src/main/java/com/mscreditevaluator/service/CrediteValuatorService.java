@@ -42,6 +42,8 @@ public class CrediteValuatorService {
                 DataClient dataClient = dataClientResponse.getBody();
                 List<CardClient> cards = cardResponse.getBody();
 
+                log.info("Dados do cliente e cartões obtidos com sucesso.");
+
                 return CustomerSituation.builder()
                         .client(dataClient)
                         .cards(cards)
@@ -50,6 +52,7 @@ public class CrediteValuatorService {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Não foi possível obter dados do cliente e/ou cartões");
             }
         } catch (Exception e) {
+            log.error("Erro ao obter situação do cliente: {}", e.getMessage());
             throw new ErrorCommunicationMicroservicesException("Erro ao obter situação do cliente: " + e.getMessage());
         }
     }
@@ -84,13 +87,18 @@ public class CrediteValuatorService {
                 return approvedCard;
             }).collect(Collectors.toList());
 
+            log.info("Avaliação do cliente concluída com sucesso.");
+
             return new ReturnCustomerReview(approvedCards);
 
         } catch (FeignException.FeignClientException e) {
+            log.error("Erro de comunicação com microserviço: {}", e.getMessage());
             throw new ErrorCommunicationMicroservicesException("Erro de comunicação com microserviço");
         } catch (DataClientNotFoundExcption e) {
+            log.error("Cliente não encontrado: {}", e.getMessage());
             throw e;
         } catch (Exception e) {
+            log.error("Erro ao realizar a avaliação do cliente: {}", e.getMessage());
             throw new ErrorCommunicationMicroservicesException("Erro ao realizar a avaliação do cliente");
         }
     }
@@ -99,10 +107,13 @@ public class CrediteValuatorService {
         try {
             publisherCardIssuanceRequest.requestCard(data);
             var protocol = UUID.randomUUID().toString();
+
+            log.info("Requisição de emissão de cartão enviada com sucesso. Protocolo: {}", protocol);
+
             return new ProtocolRequestCard(protocol);
         } catch (Exception e) {
+            log.error("Erro ao enviar requisição de emissão de cartão: {}", e.getMessage());
             throw new ErroRequestCardException(e.getMessage());
         }
     }
 }
-
