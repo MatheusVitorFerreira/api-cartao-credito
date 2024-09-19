@@ -1,11 +1,19 @@
 server:
   port: 8761
+  hostname: localhost
 
 spring:
   application:
     name: eurekaserver
+  security:
+    basic:
+      enable: true
+    user:
+      name: mscard-eureka-user
+      password: rdc-eaa-eskmrreusu
 
 eureka:
   client:
     register-with-eureka: false
     fetch-registry: false
+

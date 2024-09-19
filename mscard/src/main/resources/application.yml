@@ -1,6 +1,5 @@
 server:
   port: 0
-  address: localhost
 
 spring:
   application:
@@ -25,11 +24,15 @@ spring:
 
 eureka:
   client:
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://mscard-eureka-user:rdc-eaa-eskmrreusu@localhost:8761/eureka/
   instance:
-    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    instance-id: ${spring.application.name}:${random.value}
+    prefer-ip-address: true
 
 mq:
   queues:
     card-issuance: card-issuance
+

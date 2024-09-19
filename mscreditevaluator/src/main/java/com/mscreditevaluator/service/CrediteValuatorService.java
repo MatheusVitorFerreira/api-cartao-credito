@@ -42,7 +42,7 @@ public class CrediteValuatorService {
                 DataClient dataClient = dataClientResponse.getBody();
                 List<CardClient> cards = cardResponse.getBody();
 
-                log.info("Dados do cliente e cartões obtidos com sucesso.");
+                log.info("Dados do cliente e cartões obtidos com sucesso. Cliente: {}, Cartões: {}", idClient, cards);
 
                 return CustomerSituation.builder()
                         .client(dataClient)
@@ -56,6 +56,7 @@ public class CrediteValuatorService {
             throw new ErrorCommunicationMicroservicesException("Erro ao obter situação do cliente: " + e.getMessage());
         }
     }
+
 
     public ReturnCustomerReview performAssessment(String idClient, Long income)
             throws DataClientNotFoundExcption, ErrorCommunicationMicroservicesException {
@@ -103,14 +104,20 @@ public class CrediteValuatorService {
         }
     }
 
-    public ProtocolRequestCard requestCardIssuance (DataRequestCard data) {
+    public ProtocolRequestCard requestCardIssuance(DataRequestCard data) {
         try {
+            ResponseEntity<DataClient> dataClientResponse = clientResourceClient.getClientById(data.getIdClient());
+            if (!dataClientResponse.getStatusCode().is2xxSuccessful() || dataClientResponse.getBody() == null) {
+                throw new DataClientNotFoundExcption("Cliente não encontrado para o ID: " + data.getIdClient());
+            }
             publisherCardIssuanceRequest.requestCard(data);
             var protocol = UUID.randomUUID().toString();
 
             log.info("Requisição de emissão de cartão enviada com sucesso. Protocolo: {}", protocol);
 
             return new ProtocolRequestCard(protocol);
+        } catch (FeignException.FeignClientException e) {
+            throw new DataClientNotFoundExcption("Cliente não encontrado para o ID: " + data.getIdClient());
         } catch (Exception e) {
             log.error("Erro ao enviar requisição de emissão de cartão: {}", e.getMessage());
             throw new ErroRequestCardException(e.getMessage());

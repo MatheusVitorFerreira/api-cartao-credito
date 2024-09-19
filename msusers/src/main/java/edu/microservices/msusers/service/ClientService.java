@@ -40,7 +40,7 @@ public class ClientService {
         Optional<Client> clientOptional = clientRepository.findById(id);
         if (clientOptional.isPresent()) {
             Client client = clientOptional.get();
-            Address address = client.getAddress(); // Alterado para obter o único endereço
+            Address address = client.getAddress();
             if (address == null) {
                 throw new ClientNotFoundException("Address not found for client with id " + id);
             }
@@ -57,16 +57,13 @@ public class ClientService {
         }
         String encryptedPassword = encryptPassword(clientDTO.getPassword());
 
-        // Salvar o endereço primeiro
         Address address = clientDTO.getAddress();
         Address savedAddress = addressRepository.save(address);
 
-        // Criar o cliente e associar o endereço salvo
         Client client = clientDTO.toClient();
         client.setPassword(encryptedPassword);
         client.setAddress(savedAddress);
 
-        // Salvar o cliente
         Client savedClient = clientRepository.save(client);
 
         return new ClientDTO(savedClient, savedAddress);

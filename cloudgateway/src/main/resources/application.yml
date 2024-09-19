@@ -20,7 +20,7 @@ server:
       fetch-registry: true
       register-with-eureka: true
       service-url:
-        defaultZone: http://localhost:8761
+        defaultZone: http://mscard-eureka-user:rdc-eaa-eskmrreusu@localhost:8761/eureka/
 
 logging:
   level:
