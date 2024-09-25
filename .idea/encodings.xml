@@ -3,7 +3,9 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/cloudgateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/eurekaserver/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mscard/docker/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mscard/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/mscard/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mscartao/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/mscreditevaluator/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/msusers/src/main/java" charset="UTF-8" />

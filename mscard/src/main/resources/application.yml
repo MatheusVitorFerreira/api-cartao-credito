@@ -12,15 +12,16 @@ spring:
     password: guest
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/cards
+    url: jdbc:postgresql://mscard:5432/cards
     username: postgres
     password: 120900m
     driver-class-name: org.postgresql.Driver
 
-  jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-    hibernate:
-      ddl-auto: update
+    jpa:
+      database-platform: org.hibernate.dialect.PostgreSQLDialect
+      hibernate:
+        ddl-auto: update
+
 
 eureka:
   client:
@@ -35,4 +36,3 @@ eureka:
 mq:
   queues:
     card-issuance: card-issuance
-

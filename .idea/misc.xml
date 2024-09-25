@@ -14,6 +14,7 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/mscard/docker/pom.xml" />
         <option value="$PROJECT_DIR$/mscartao/pom.xml" />
       </set>
     </option>
