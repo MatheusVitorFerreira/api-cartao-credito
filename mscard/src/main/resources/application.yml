@@ -6,13 +6,13 @@ spring:
     name: mscard
 
   rabbitmq:
-    host: localhost
+    host: api-rabbitmq
     port: 5672
     username: guest
     password: guest
 
   datasource:
-    url: jdbc:postgresql://mscard:5432/cards
+    url: jdbc:postgresql://postgres:5432/cards
     username: postgres
     password: 120900m
     driver-class-name: org.postgresql.Driver
@@ -28,7 +28,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://mscard-eureka-user:rdc-eaa-eskmrreusu@localhost:8761/eureka/
+      defaultZone: http://mscard-eureka-user:rdc-eaa-eskmrreusu@api-eureka:8761/eureka/
   instance:
     instance-id: ${spring.application.name}:${random.value}
     prefer-ip-address: true
