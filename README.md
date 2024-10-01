@@ -1,8 +1,3 @@
-
-<div style="text-align: center;">
-  <img src="https://www.radcorp.com.br/site/assets/images/construcao-1000x750.png" alt="Em Construção">
-</div>
-
 ### Descrição do Projeto: API de Emissão de Cartão de Crédito com Microsserviços e RabbitMQ
 
 #### Visão Geral
@@ -77,6 +72,28 @@ O projeto "API de Emissão de Cartão de Crédito" visa desenvolver um sistema r
 - **Mensageria**: RabbitMQ
 - **Autenticação e Autorização**: Keycloak
 - **Containerização**: Docker
+
+### Pré-requisitos
+
+- DockerDestop instalado em sua máquina.
+
+### Subir o Keycloak (Docker)
+docker run -p 8080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.6 start-dev
+
+### Subir o RabbitMQ (Docker)
+docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
+
+- Acessar ao http://localhost:15672/
+
+- Login 
+
+Username:guest
+
+Password: guest
+
+- Clicar em Queues and streams
+- Criar uma Queues com nome "card-issuance"
+
 
 #### Benefícios
 
